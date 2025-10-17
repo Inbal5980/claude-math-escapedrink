@@ -1,0 +1,153 @@
+import React, { useState } from 'react';
+import { Sparkles, ArrowLeft } from 'lucide-react';
+
+const MathEscapeRoom = () => {
+  const [part1, setPart1] = useState('');
+  const [part2, setPart2] = useState('');
+  const [sum, setSum] = useState('');
+  const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState('');
+
+  const checkAnswer = () => {
+    const num1 = parseInt(part1) || 0;
+    const num2 = parseInt(part2) || 0;
+    const total = parseInt(sum) || 0;
+    
+    // בדיקה אם התשובה נכונה לפי התרגיל הספציפי (2+10=12 או 10+2=12)
+    if (((num1 === 2 && num2 === 10) || (num1 === 10 && num2 === 2)) && total === 12) {
+      setMessage('כל הכבוד! כעת לחצו על חץ ההמשך וכתבו את הפתרון במקום המתאים כדי לעבור לחדר הבא!');
+      setMessageType('success');
+    }
+    // בדיקה אם התשובה נכונה מתמטית אבל לא מתאימה
+    else if (num1 + num2 === total && total !== 0) {
+      setMessage('התרגיל המתמטי שכתבתם נכון אבל הוא אינו מתאים לפתרון השאלה בחדר. נסו שוב!');
+      setMessageType('warning');
+    }
+    // תשובה לא נכונה
+    else {
+      setMessage('אופסס.. זה לא נכון. נסו שוב');
+      setMessageType('error');
+    }
+  };
+
+  const resetForm = () => {
+    setPart1('');
+    setPart2('');
+    setSum('');
+    setMessage('');
+    setMessageType('');
+  };
+
+  return (
+    <div dir="rtl" className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-300 to-blue-300 p-8 flex items-center justify-center">
+      <div className="max-w-2xl w-full">
+        {/* כרטיס ראשי */}
+        <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border-4 border-purple-400">
+          
+          {/* איזור התרגיל */}
+          <div className="mb-8">
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <Sparkles className="text-yellow-400 animate-pulse" size={32} />
+              <h2 className="text-2xl font-bold text-purple-600">פתרו את התרגיל הקסום!</h2>
+              <Sparkles className="text-yellow-400 animate-pulse" size={32} />
+            </div>
+            
+            {/* סכימת התרגיל - כמו בתמונה */}
+            <div className="flex flex-col items-center gap-6 mb-8">
+              {/* שורה עליונה - שני חלקים */}
+              <div className="flex items-center justify-center gap-8">
+                {/* חלק 1 */}
+                <div className="relative">
+                  <div className="absolute -top-8 right-0 left-0 text-center">
+                    <label className="text-purple-600 font-bold text-sm">חלק</label>
+                  </div>
+                  <input
+                    type="number"
+                    value={part1}
+                    onChange={(e) => setPart1(e.target.value)}
+                    className="w-32 h-20 text-3xl text-center border-4 border-purple-400 rounded-xl focus:border-pink-400 focus:outline-none bg-gradient-to-br from-purple-50 to-pink-50 font-bold shadow-lg"
+                    placeholder="?"
+                  />
+                </div>
+
+                {/* חלק 2 */}
+                <div className="relative">
+                  <div className="absolute -top-8 right-0 left-0 text-center">
+                    <label className="text-purple-600 font-bold text-sm">חלק</label>
+                  </div>
+                  <input
+                    type="number"
+                    value={part2}
+                    onChange={(e) => setPart2(e.target.value)}
+                    className="w-32 h-20 text-3xl text-center border-4 border-purple-400 rounded-xl focus:border-pink-400 focus:outline-none bg-gradient-to-br from-purple-50 to-pink-50 font-bold shadow-lg"
+                    placeholder="?"
+                  />
+                </div>
+              </div>
+
+              {/* משולש מקשר */}
+              <div className="flex flex-col items-center">
+                <div className="w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-t-[20px] border-t-purple-400"></div>
+              </div>
+
+              {/* שורה תחתונה - סכום */}
+              <div className="relative">
+                <div className="absolute -top-8 right-0 left-0 text-center">
+                  <label className="text-purple-600 font-bold text-sm">סכום</label>
+                </div>
+                <input
+                  type="number"
+                  value={sum}
+                  onChange={(e) => setSum(e.target.value)}
+                  className="w-32 h-20 text-3xl text-center border-4 border-purple-400 rounded-xl focus:border-pink-400 focus:outline-none bg-gradient-to-br from-blue-50 to-purple-50 font-bold shadow-lg"
+                  placeholder="?"
+                />
+              </div>
+            </div>
+
+            {/* כפתור בדיקה */}
+            <div className="flex justify-center">
+              <button
+                onClick={checkAnswer}
+                className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-4 rounded-full font-bold text-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 border-2 border-white"
+              >
+                ✨ בדקו את התשובה! ✨
+              </button>
+            </div>
+          </div>
+
+          {/* הודעות */}
+          {message && (
+            <div className={`p-6 rounded-2xl mb-4 text-center font-bold text-lg border-4 ${
+              messageType === 'success' 
+                ? 'bg-green-100 border-green-400 text-green-800' 
+                : messageType === 'warning'
+                ? 'bg-yellow-100 border-yellow-400 text-yellow-800'
+                : 'bg-red-100 border-red-400 text-red-800'
+            }`}>
+              <p className="leading-relaxed">{message}</p>
+              {messageType !== 'success' && (
+                <button
+                  onClick={resetForm}
+                  className="mt-4 bg-white px-6 py-2 rounded-full font-bold shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+                >
+                  נסו שוב
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* עיטורים תחתונים */}
+          <div className="flex justify-center gap-4 mt-6">
+            <Sparkles className="text-pink-400" size={24} />
+            <Sparkles className="text-purple-400" size={24} />
+            <Sparkles className="text-blue-400" size={24} />
+            <Sparkles className="text-yellow-400" size={24} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MathEscapeRoom;
