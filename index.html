@@ -1,153 +1,88 @@
-import React, { useState } from 'react';
-import { Sparkles, ArrowLeft } from 'lucide-react';
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>פתרו את התרגיל הקסום</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:system-ui,Arial;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#a78bfa,#60a5fa)}
+    .card{width:min(92vw,720px);background:#fff;border-radius:24px;padding:24px 28px;box-shadow:0 12px 40px rgba(0,0,0,.2);border:4px solid #c4b5fd}
+    h2{display:flex;gap:10px;align-items:center;justify-content:center;color:#6b21a8;margin-bottom:16px}
+    .row{display:flex;gap:20px;justify-content:center;margin:18px 0}
+    .cell{position:relative}
+    .label{position:absolute;top:-18px;left:0;right:0;text-align:center;color:#7c3aed;font-weight:700;font-size:14px}
+    input{width:120px;height:64px;border:4px solid #a78bfa;border-radius:14px;text-align:center;font-size:28px;font-weight:800;background:linear-gradient(135deg,#faf5ff,#fdf2f8);outline:none}
+    .tri{width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:18px solid #a78bfa;margin:6px auto}
+    .btn{display:block;margin:10px auto 0;background:linear-gradient(90deg,#8b5cf6,#ec4899);color:#fff;border:none;border-radius:999px;padding:14px 26px;font-weight:800;font-size:18px;cursor:pointer}
+    .msg{margin-top:16px;padding:16px;border-radius:16px;text-align:center;font-weight:700;border:4px solid transparent;display:none}
+    .success{background:#dcfce7;border-color:#34d399;color:#065f46;display:block}
+    .warn{background:#fef9c3;border-color:#facc15;color:#854d0e;display:block}
+    .error{background:#fee2e2;border-color:#f87171;color:#7f1d1d;display:block}
+    .reset{margin-top:10px;background:#fff;border:2px solid #ddd;color:#111;padding:10px 18px;border-radius:999px;font-weight:700}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>✨ פתרו את התרגיל הקסום ✨</h2>
 
-const MathEscapeRoom = () => {
-  const [part1, setPart1] = useState('');
-  const [part2, setPart2] = useState('');
-  const [sum, setSum] = useState('');
-  const [message, setMessage] = useState('');
-  const [messageType, setMessageType] = useState('');
-
-  const checkAnswer = () => {
-    const num1 = parseInt(part1) || 0;
-    const num2 = parseInt(part2) || 0;
-    const total = parseInt(sum) || 0;
-    
-    // בדיקה אם התשובה נכונה לפי התרגיל הספציפי (2+10=12 או 10+2=12)
-    if (((num1 === 2 && num2 === 10) || (num1 === 10 && num2 === 2)) && total === 12) {
-      setMessage('כל הכבוד! כעת לחצו על חץ ההמשך וכתבו את הפתרון במקום המתאים כדי לעבור לחדר הבא!');
-      setMessageType('success');
-    }
-    // בדיקה אם התשובה נכונה מתמטית אבל לא מתאימה
-    else if (num1 + num2 === total && total !== 0) {
-      setMessage('התרגיל המתמטי שכתבתם נכון אבל הוא אינו מתאים לפתרון השאלה בחדר. נסו שוב!');
-      setMessageType('warning');
-    }
-    // תשובה לא נכונה
-    else {
-      setMessage('אופסס.. זה לא נכון. נסו שוב');
-      setMessageType('error');
-    }
-  };
-
-  const resetForm = () => {
-    setPart1('');
-    setPart2('');
-    setSum('');
-    setMessage('');
-    setMessageType('');
-  };
-
-  return (
-    <div dir="rtl" className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-300 to-blue-300 p-8 flex items-center justify-center">
-      <div className="max-w-2xl w-full">
-        {/* כרטיס ראשי */}
-        <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border-4 border-purple-400">
-          
-          {/* איזור התרגיל */}
-          <div className="mb-8">
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <Sparkles className="text-yellow-400 animate-pulse" size={32} />
-              <h2 className="text-2xl font-bold text-purple-600">פתרו את התרגיל הקסום!</h2>
-              <Sparkles className="text-yellow-400 animate-pulse" size={32} />
-            </div>
-            
-            {/* סכימת התרגיל - כמו בתמונה */}
-            <div className="flex flex-col items-center gap-6 mb-8">
-              {/* שורה עליונה - שני חלקים */}
-              <div className="flex items-center justify-center gap-8">
-                {/* חלק 1 */}
-                <div className="relative">
-                  <div className="absolute -top-8 right-0 left-0 text-center">
-                    <label className="text-purple-600 font-bold text-sm">חלק</label>
-                  </div>
-                  <input
-                    type="number"
-                    value={part1}
-                    onChange={(e) => setPart1(e.target.value)}
-                    className="w-32 h-20 text-3xl text-center border-4 border-purple-400 rounded-xl focus:border-pink-400 focus:outline-none bg-gradient-to-br from-purple-50 to-pink-50 font-bold shadow-lg"
-                    placeholder="?"
-                  />
-                </div>
-
-                {/* חלק 2 */}
-                <div className="relative">
-                  <div className="absolute -top-8 right-0 left-0 text-center">
-                    <label className="text-purple-600 font-bold text-sm">חלק</label>
-                  </div>
-                  <input
-                    type="number"
-                    value={part2}
-                    onChange={(e) => setPart2(e.target.value)}
-                    className="w-32 h-20 text-3xl text-center border-4 border-purple-400 rounded-xl focus:border-pink-400 focus:outline-none bg-gradient-to-br from-purple-50 to-pink-50 font-bold shadow-lg"
-                    placeholder="?"
-                  />
-                </div>
-              </div>
-
-              {/* משולש מקשר */}
-              <div className="flex flex-col items-center">
-                <div className="w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-t-[20px] border-t-purple-400"></div>
-              </div>
-
-              {/* שורה תחתונה - סכום */}
-              <div className="relative">
-                <div className="absolute -top-8 right-0 left-0 text-center">
-                  <label className="text-purple-600 font-bold text-sm">סכום</label>
-                </div>
-                <input
-                  type="number"
-                  value={sum}
-                  onChange={(e) => setSum(e.target.value)}
-                  className="w-32 h-20 text-3xl text-center border-4 border-purple-400 rounded-xl focus:border-pink-400 focus:outline-none bg-gradient-to-br from-blue-50 to-purple-50 font-bold shadow-lg"
-                  placeholder="?"
-                />
-              </div>
-            </div>
-
-            {/* כפתור בדיקה */}
-            <div className="flex justify-center">
-              <button
-                onClick={checkAnswer}
-                className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-4 rounded-full font-bold text-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 border-2 border-white"
-              >
-                ✨ בדקו את התשובה! ✨
-              </button>
-            </div>
-          </div>
-
-          {/* הודעות */}
-          {message && (
-            <div className={`p-6 rounded-2xl mb-4 text-center font-bold text-lg border-4 ${
-              messageType === 'success' 
-                ? 'bg-green-100 border-green-400 text-green-800' 
-                : messageType === 'warning'
-                ? 'bg-yellow-100 border-yellow-400 text-yellow-800'
-                : 'bg-red-100 border-red-400 text-red-800'
-            }`}>
-              <p className="leading-relaxed">{message}</p>
-              {messageType !== 'success' && (
-                <button
-                  onClick={resetForm}
-                  className="mt-4 bg-white px-6 py-2 rounded-full font-bold shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
-                >
-                  נסו שוב
-                </button>
-              )}
-            </div>
-          )}
-
-          {/* עיטורים תחתונים */}
-          <div className="flex justify-center gap-4 mt-6">
-            <Sparkles className="text-pink-400" size={24} />
-            <Sparkles className="text-purple-400" size={24} />
-            <Sparkles className="text-blue-400" size={24} />
-            <Sparkles className="text-yellow-400" size={24} />
-          </div>
-        </div>
+    <div class="row">
+      <div class="cell">
+        <div class="label">חלק</div>
+        <input id="part1" type="number" placeholder="?" />
+      </div>
+      <div class="cell">
+        <div class="label">חלק</div>
+        <input id="part2" type="number" placeholder="?" />
       </div>
     </div>
-  );
-};
 
-export default MathEscapeRoom;
+    <div class="tri"></div>
+
+    <div class="row">
+      <div class="cell">
+        <div class="label">סכום</div>
+        <input id="sum" type="number" placeholder="?" />
+      </div>
+    </div>
+
+    <button id="check" class="btn">✨ בדקו את התשובה ✨</button>
+
+    <div id="message" class="msg"></div>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    function show(kind, text){
+      const m = $('message');
+      m.className = 'msg ' + kind;
+      m.innerHTML = text;
+      m.style.display = 'block';
+      if(kind !== 'success'){
+        if(!document.getElementById('reset')){
+          const b = document.createElement('button');
+          b.id = 'reset'; b.className='reset'; b.textContent='נסו שוב';
+          b.onclick = () => { ['part1','part2','sum'].forEach(i=>$(i).value=''); m.style.display='none'; b.remove(); };
+          m.appendChild(document.createElement('br'));
+          m.appendChild(b);
+        }
+      } else {
+        const r = document.getElementById('reset'); if(r) r.remove();
+      }
+    }
+    $('check').addEventListener('click', () => {
+      const n1 = parseInt(($('part1').value||'').trim())||0;
+      const n2 = parseInt(($('part2').value||'').trim())||0;
+      const total = parseInt(($('sum').value||'').trim())||0;
+
+      if(((n1===2 && n2===10)||(n1===10 && n2===2)) && total===12){
+        show('success','כל הכבוד! כעת לחצו על חץ ההמשך וכתבו את הפתרון במקום המתאים כדי לעבור לחדר הבא!');
+      } else if(n1 && n2 && total && n1+n2===total){
+        show('warn','התרגיל המתמטי שכתבתם נכון אבל הוא אינו מתאים לפתרון השאלה בחדר. נסו שוב!');
+      } else {
+        show('error','אופסס.. זה לא נכון. נסו שוב');
+      }
+    });
+  </script>
+</body>
+</html>
