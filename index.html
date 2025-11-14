@@ -1,88 +1,339 @@
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>פתרו את התרגיל הקסום</title>
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:system-ui,Arial;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#a78bfa,#60a5fa)}
-    .card{width:min(92vw,720px);background:#fff;border-radius:24px;padding:24px 28px;box-shadow:0 12px 40px rgba(0,0,0,.2);border:4px solid #c4b5fd}
-    h2{display:flex;gap:10px;align-items:center;justify-content:center;color:#6b21a8;margin-bottom:16px}
-    .row{display:flex;gap:20px;justify-content:center;margin:18px 0}
-    .cell{position:relative}
-    .label{position:absolute;top:-18px;left:0;right:0;text-align:center;color:#7c3aed;font-weight:700;font-size:14px}
-    input{width:120px;height:64px;border:4px solid #a78bfa;border-radius:14px;text-align:center;font-size:28px;font-weight:800;background:linear-gradient(135deg,#faf5ff,#fdf2f8);outline:none}
-    .tri{width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:18px solid #a78bfa;margin:6px auto}
-    .btn{display:block;margin:10px auto 0;background:linear-gradient(90deg,#8b5cf6,#ec4899);color:#fff;border:none;border-radius:999px;padding:14px 26px;font-weight:800;font-size:18px;cursor:pointer}
-    .msg{margin-top:16px;padding:16px;border-radius:16px;text-align:center;font-weight:700;border:4px solid transparent;display:none}
-    .success{background:#dcfce7;border-color:#34d399;color:#065f46;display:block}
-    .warn{background:#fef9c3;border-color:#facc15;color:#854d0e;display:block}
-    .error{background:#fee2e2;border-color:#f87171;color:#7f1d1d;display:block}
-    .reset{margin-top:10px;background:#fff;border:2px solid #ddd;color:#111;padding:10px 18px;border-radius:999px;font-weight:700}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>אקדמיה לקסומים - חדר בריחה מתמטי</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 0;
+            padding: 20px;
+            width: 100vw;
+            height: 100vh;
+            box-shadow: none;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container::before {
+            content: '✨';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 40px;
+            animation: twinkle 2s infinite;
+        }
+        
+        .container::after {
+            content: '⭐';
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 40px;
+            animation: twinkle 2s infinite 1s;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        
+        .schema {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+        
+        .boxes-container {
+            display: flex;
+            gap: 25px;
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        .box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .box-label {
+            font-size: 32px;
+            font-weight: bold;
+            color: #764ba2;
+            text-align: center;
+            padding: 0 10px;
+            word-wrap: break-word;
+        }
+        
+        .box-input {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            border: 4px solid #fdcb6e;
+            border-radius: 14px;
+            padding: 12px 12px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .box-input input {
+            width: 100%;
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+            border: none;
+            background: transparent;
+            color: #2d3436;
+            outline: none;
+        }
+        
+        .arrow {
+            font-size: 50px;
+            color: #764ba2;
+            margin: 5px 0;
+        }
+        
+        .result-box {
+            background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+            border: 4px solid #6c5ce7;
+            border-radius: 14px;
+            padding: 12px 22px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 260px;
+            width: 100%;
+        }
+        
+        .result-label {
+            font-size: 32px;
+            font-weight: bold;
+            color: #764ba2;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .result-box input {
+            width: 100%;
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+            border: none;
+            background: transparent;
+            color: white;
+            outline: none;
+        }
+        
+        button {
+            margin-top: 15px;
+            padding: 14px 45px;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .message {
+            margin-top: 12px;
+            padding: 18px;
+            border-radius: 14px;
+            font-size: 19px;
+            font-weight: bold;
+            text-align: center;
+            display: none;
+            animation: fadeIn 0.5s;
+            max-width: 600px;
+            line-height: 1.4;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .success {
+            background: linear-gradient(135deg, #55efc4 0%, #00b894 100%);
+            color: white;
+            border: 3px solid #00b894;
+            display: block;
+        }
+        
+        .warning {
+            background: linear-gradient(135deg, #fab1a0 0%, #ff7675 100%);
+            color: white;
+            border: 3px solid #ff7675;
+            display: block;
+        }
+        
+        .error {
+            background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+            color: white;
+            border: 3px solid #e84393;
+            display: block;
+        }
+        
+        .magic-wand {
+            font-size: 30px;
+            display: inline-block;
+            animation: wave 1s infinite;
+        }
+        
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(20deg); }
+            75% { transform: rotate(-20deg); }
+        }
+
+        .retry-button {
+            margin-top: 12px;
+            padding: 10px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #764ba2;
+            background: white;
+            border: 2px solid #764ba2;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .retry-button:hover {
+            background: #764ba2;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-  <div class="card">
-    <h2>✨ פתרו את התרגיל הקסום ✨</h2>
-
-    <div class="row">
-      <div class="cell">
-        <div class="label">חלק</div>
-        <input id="part1" type="number" placeholder="?" />
-      </div>
-      <div class="cell">
-        <div class="label">חלק</div>
-        <input id="part2" type="number" placeholder="?" />
-      </div>
+    <div class="container">
+        <div class="schema">
+            <div class="boxes-container">
+                <div class="box">
+                    <div class="box-label">חלק</div>
+                    <div class="box-input">
+                        <input type="text" id="part1" placeholder="">
+                    </div>
+                </div>
+                
+                <div class="box">
+                    <div class="box-label">חלק</div>
+                    <div class="box-input">
+                        <input type="text" id="part2" placeholder="">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <div class="result-label">סכום</div>
+            <div class="result-box">
+                <input type="text" id="sum" placeholder="">
+            </div>
+            
+            <button onclick="checkAnswer()">
+                <span class="magic-wand">🪄</span>
+                בדוק תשובה
+                <span class="magic-wand">🪄</span>
+            </button>
+            
+            <div id="message" class="message"></div>
+        </div>
     </div>
-
-    <div class="tri"></div>
-
-    <div class="row">
-      <div class="cell">
-        <div class="label">סכום</div>
-        <input id="sum" type="number" placeholder="?" />
-      </div>
-    </div>
-
-    <button id="check" class="btn">✨ בדקו את התשובה ✨</button>
-
-    <div id="message" class="msg"></div>
-  </div>
-
-  <script>
-    const $ = (id) => document.getElementById(id);
-    function show(kind, text){
-      const m = $('message');
-      m.className = 'msg ' + kind;
-      m.innerHTML = text;
-      m.style.display = 'block';
-      if(kind !== 'success'){
-        if(!document.getElementById('reset')){
-          const b = document.createElement('button');
-          b.id = 'reset'; b.className='reset'; b.textContent='נסו שוב';
-          b.onclick = () => { ['part1','part2','sum'].forEach(i=>$(i).value=''); m.style.display='none'; b.remove(); };
-          m.appendChild(document.createElement('br'));
-          m.appendChild(b);
+    
+    <script>
+        function checkAnswer() {
+            const part1 = document.getElementById('part1').value.trim();
+            const part2 = document.getElementById('part2').value.trim();
+            const sum = document.getElementById('sum').value.trim();
+            const messageDiv = document.getElementById('message');
+            
+            // בניית התרגיל המלא
+            const fullAnswer = part1 + '+' + part2 + '=' + sum;
+            const cleanAnswer = fullAnswer.replace(/\s/g, '');
+            
+            // בדיקה אם התשובה היא אחת מהתשובות הנכונות (2+10=12 או 10+2=12)
+            if (cleanAnswer === '2+10=12' || cleanAnswer === '10+2=12') {
+                messageDiv.className = 'message success';
+                messageDiv.innerHTML = '🎉 כל הכבוד! כעת לחצו על חץ ההמשך וכתבו את הפתרון במקום המתאים כדי לעבור לחדר הבא!';
+                return;
+            }
+            
+            // בדיקה שכל השדות מלאים
+            if (!part1 || !part2 || !sum) {
+                messageDiv.className = 'message error';
+                messageDiv.innerHTML = 'אופסס.. זה לא נכון. נסו שוב<br><button class="retry-button" onclick="resetForm()">נסו שוב</button>';
+                return;
+            }
+            
+            // בדיקה שכל הערכים הם מספרים
+            const num1 = parseInt(part1);
+            const num2 = parseInt(part2);
+            const total = parseInt(sum);
+            
+            if (isNaN(num1) || isNaN(num2) || isNaN(total)) {
+                messageDiv.className = 'message error';
+                messageDiv.innerHTML = 'אופסס.. זה לא נכון. נסו שוב<br><button class="retry-button" onclick="resetForm()">נסו שוב</button>';
+                return;
+            }
+            
+            // בדיקה אם החישוב נכון מתמטית
+            if (num1 + num2 === total) {
+                messageDiv.className = 'message warning';
+                messageDiv.innerHTML = 'התרגיל המתמטי שכתבתם נכון אבל הוא אינו מתאים לפתרון השאלה בחדר. נסו שוב!<br><button class="retry-button" onclick="resetForm()">נסו שוב</button>';
+            } else {
+                messageDiv.className = 'message error';
+                messageDiv.innerHTML = 'אופסס.. זה לא נכון. נסו שוב<br><button class="retry-button" onclick="resetForm()">נסו שוב</button>';
+            }
         }
-      } else {
-        const r = document.getElementById('reset'); if(r) r.remove();
-      }
-    }
-    $('check').addEventListener('click', () => {
-      const n1 = parseInt(($('part1').value||'').trim())||0;
-      const n2 = parseInt(($('part2').value||'').trim())||0;
-      const total = parseInt(($('sum').value||'').trim())||0;
 
-      if(((n1===2 && n2===10)||(n1===10 && n2===2)) && total===12){
-        show('success','כל הכבוד! כעת לחצו על חץ ההמשך וכתבו את הפתרון במקום המתאים כדי לעבור לחדר הבא!');
-      } else if(n1 && n2 && total && n1+n2===total){
-        show('warn','התרגיל המתמטי שכתבתם נכון אבל הוא אינו מתאים לפתרון השאלה בחדר. נסו שוב!');
-      } else {
-        show('error','אופסס.. זה לא נכון. נסו שוב');
-      }
-    });
-  </script>
+        function resetForm() {
+            document.getElementById('part1').value = '';
+            document.getElementById('part2').value = '';
+            document.getElementById('sum').value = '';
+            document.getElementById('message').className = 'message';
+            document.getElementById('message').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
