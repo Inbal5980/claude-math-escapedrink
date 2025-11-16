@@ -302,7 +302,7 @@
             // בדיקה שכל השדות מלאים
             if (!part1 || !part2 || !sum) {
                 messageDiv.className = 'message error';
-                messageDiv.innerHTML = 'אופסס.. זה לא נכון. נסו שוב<br><button class="retry-button" onclick="resetForm()">נסו שוב</button>';
+                messageDiv.innerHTML = 'אופס זה עדיין לא נכון<br><button class="retry-button" onclick="resetForm()">נסו שוב</button>';
                 return;
             }
             
@@ -313,17 +313,17 @@
             
             if (isNaN(num1) || isNaN(num2) || isNaN(total)) {
                 messageDiv.className = 'message error';
-                messageDiv.innerHTML = 'אופסס.. זה לא נכון. נסו שוב<br><button class="retry-button" onclick="resetForm()">נסו שוב</button>';
+                messageDiv.innerHTML = 'אופס זה עדיין לא נכון<br><button class="retry-button" onclick="resetForm()">נסו שוב</button>';
                 return;
             }
             
             // בדיקה אם החישוב נכון מתמטית
             if (num1 + num2 === total) {
                 messageDiv.className = 'message warning';
-                messageDiv.innerHTML = 'התרגיל המתמטי שכתבתם נכון אבל הוא אינו מתאים לפתרון השאלה בחדר. נסו שוב!<br><button class="retry-button" onclick="resetForm()">נסו שוב</button>';
+                messageDiv.innerHTML = 'אופס זה עדיין לא נכון<br><button class="retry-button" onclick="resetForm()">נסו שוב</button>';
             } else {
                 messageDiv.className = 'message error';
-                messageDiv.innerHTML = 'אופסס.. זה לא נכון. נסו שוב<br><button class="retry-button" onclick="resetForm()">נסו שוב</button>';
+                messageDiv.innerHTML = 'אופס זה עדיין לא נכון<br><button class="retry-button" onclick="resetForm()">נסו שוב</button>';
             }
         }
 
