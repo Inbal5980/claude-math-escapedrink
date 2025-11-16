@@ -331,8 +331,9 @@
             document.getElementById('part1').value = '';
             document.getElementById('part2').value = '';
             document.getElementById('sum').value = '';
-            document.getElementById('message').className = 'message';
-            document.getElementById('message').style.display = 'none';
+            const messageDiv = document.getElementById('message');
+            messageDiv.className = 'message';
+            messageDiv.innerHTML = '';
         }
     </script>
 </body>
