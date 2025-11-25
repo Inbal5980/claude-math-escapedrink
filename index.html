@@ -252,7 +252,7 @@
                 <div class="box">
                     <div class="box-label">חלק</div>
                     <div class="box-input">
-                        <input type="text" id="part1" placeholder="">
+                        <input type="text" id="part1" value="לא ידוע" readonly style="color: #636e72; cursor: default;">
                     </div>
                 </div>
                 
@@ -283,48 +283,37 @@
     
     <script>
         function checkAnswer() {
-            const part1 = document.getElementById('part1').value.trim();
             const part2 = document.getElementById('part2').value.trim();
             const sum = document.getElementById('sum').value.trim();
             const messageDiv = document.getElementById('message');
             
-            // בניית התרגיל המלא
-            const fullAnswer = part1 + '+' + part2 + '=' + sum;
-            const cleanAnswer = fullAnswer.replace(/\s/g, '');
-            
-            // בדיקה אם התשובה היא אחת מהתשובות הנכונות (2+10=12 או 10+2=12)
-            if (cleanAnswer === '2+10=12' || cleanAnswer === '10+2=12') {
+            // בדיקה אם התשובה נכונה (חלק 2 = 2 וסכום = 12)
+            if (part2 === '2' && sum === '12') {
                 messageDiv.className = 'message success';
                 messageDiv.innerHTML = '🎉 כל הכבוד ! לחצו על החץ האפור משמאל כדי לעבור לשלב הבא';
                 return;
             }
             
             // בדיקה שכל השדות מלאים
-            if (!part1 || !part2 || !sum) {
+            if (!part2 || !sum) {
                 messageDiv.className = 'message error';
                 messageDiv.innerHTML = 'אופס זה עדיין לא נכון<br><button class="retry-button" onclick="resetForm()">נסו שוב</button>';
                 return;
             }
             
             // בדיקה שכל הערכים הם מספרים
-            const num1 = parseInt(part1);
             const num2 = parseInt(part2);
             const total = parseInt(sum);
             
-            if (isNaN(num1) || isNaN(num2) || isNaN(total)) {
+            if (isNaN(num2) || isNaN(total)) {
                 messageDiv.className = 'message error';
                 messageDiv.innerHTML = 'אופס זה עדיין לא נכון<br><button class="retry-button" onclick="resetForm()">נסו שוב</button>';
                 return;
             }
             
-            // בדיקה אם החישוב נכון מתמטית
-            if (num1 + num2 === total) {
-                messageDiv.className = 'message warning';
-                messageDiv.innerHTML = 'אופס זה עדיין לא נכון<br><button class="retry-button" onclick="resetForm()">נסו שוב</button>';
-            } else {
-                messageDiv.className = 'message error';
-                messageDiv.innerHTML = 'אופס זה עדיין לא נכון<br><button class="retry-button" onclick="resetForm()">נסו שוב</button>';
-            }
+            // תשובה שגויה
+            messageDiv.className = 'message error';
+            messageDiv.innerHTML = 'אופס זה עדיין לא נכון<br><button class="retry-button" onclick="resetForm()">נסו שוב</button>';
         }
 
         function resetForm() {
